@@ -1,0 +1,28 @@
+# Define a versão da sintaxe do Docker Compose a ser usada.
+version: '3.8'
+
+# 'services' é onde definimos nossos contêineres.
+services:
+  
+  # Nosso serviço de backend
+  backend:
+    container_name: api_idosos_backend
+    # 'build' diz ao Compose para construir uma imagem a partir de um Dockerfile.
+    # O '.' significa o diretório onde o Dockerfile está.
+    build: ./backend
+    # 'ports' mapeia a porta do seu computador (HOST) para a porta do contêiner (CONTAINER).
+    # Formato: "HOST:CONTAINER"
+    # A porta 8080 do seu PC será redirecionada para a porta 8080 do contêiner.
+    ports:
+      - "8080:8080"
+
+  # Nosso serviço de frontend
+  frontend:
+    container_name: api_idosos_frontend
+    build: ./frontend
+    ports:
+      # A porta 80 do seu PC será redirecionada para a porta 80 do contêiner.
+      - "80:80"
+    # 'depends_on' garante que o contêiner do backend seja iniciado ANTES do contêiner do frontend.
+    depends_on:
+      - backend
