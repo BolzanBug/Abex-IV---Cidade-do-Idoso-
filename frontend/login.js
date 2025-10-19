@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cpfUsuario = cpfUsuarioInput.value;
         const senha = document.getElementById("senha").value;
 
-        const backendUrl = `http://localhost:8080/api/login/${userType}`;
+        const backendUrl = `http://localhost:8080/login/${userType}`;
 
         console.log("Enviando dados para:", backendUrl);
         console.log("Payload:", { cpfUsuario, senha });
