@@ -1,6 +1,6 @@
 Pra roda a aplicação:
 
-1. fazer o git pull da branch develop na maquina;
+1. fazer o git clone <url> da branch develop na maquina;
 
 2. editar o arquivo application.properties no caminho backend -> src -> main -> reosurces. Adicionar o codido:
   spring.datasource.url=jdbc:postgresql://localhost:5432/idosos_db
