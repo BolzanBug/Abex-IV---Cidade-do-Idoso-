@@ -1,0 +1,154 @@
+-- 1. enderecos
+CREATE TABLE endereco (
+    id_endereco   SERIAL PRIMARY KEY, -- Alterado
+    cidade        VARCHAR(45) not null,
+    numero        INTEGER not null,
+    rua           VARCHAR(65) not null,
+    cep           VARCHAR(9) not null, -- Alterado
+    complemento   VARCHAR(30) not null,
+    bairro        VARCHAR(65) not null
+);
+
+-- 2. instituição
+CREATE TABLE instituicao (
+    id_instituicao    SERIAL PRIMARY KEY, -- Alterado
+    id_endereco       INTEGER not null,
+    orgao_responsavel VARCHAR(100) not null,
+    CONSTRAINT fk_id_endereco_instituicao
+        FOREIGN KEY (id_endereco)
+        REFERENCES endereco (id_endereco)
+);
+
+-- 3. usuário 
+CREATE TABLE usuario (
+    id_usuario       SERIAL PRIMARY KEY, -- Alterado
+    id_endereco      INTEGER not null,
+    nome             VARCHAR(150) not null,
+    cpf              VARCHAR(11) not null UNIQUE, -- Alterado
+    login            VARCHAR(16) not null UNIQUE, -- Alterado
+    senha            VARCHAR(255) not null, -- Alterado
+    datanascimento   DATE check (datanascimento < CURRENT_DATE) not null,
+    genero           VARCHAR(1) check (genero in ('F', 'M', 'O')) not null,
+    CONSTRAINT fk_id_endereco_usuario
+        FOREIGN KEY (id_endereco)
+        REFERENCES endereco (id_endereco)
+);
+
+-- 4. perfis que especializam usuário (Estes estão corretos, são FKs)
+CREATE TABLE professor (
+    id_usuario          INT PRIMARY KEY,
+    CONSTRAINT fk_id_usuario_professor
+        FOREIGN KEY (id_usuario)
+        REFERENCES usuario (id_usuario)
+);
+
+CREATE TABLE idoso (
+    id_usuario          INT PRIMARY KEY,
+    obs                 TEXT not null,
+    restricao_medica    TEXT not null,
+    CONSTRAINT fk_id_usuario_idoso
+        FOREIGN KEY (id_usuario)
+        REFERENCES usuario (id_usuario)
+);
+
+CREATE TABLE funcionario (
+    id_usuario          INT PRIMARY KEY,
+    CONSTRAINT fk_id_usuario_funcionario
+        FOREIGN KEY (id_usuario)
+        REFERENCES usuario (id_usuario)
+);
+
+-- 5. contato
+CREATE TABLE contato (
+    id_contato        SERIAL PRIMARY KEY, -- Alterado
+    id_usuario        INTEGER,
+    id_instituicao    INTEGER,
+    tipo              VARCHAR(45) not null,
+    descricao         VARCHAR(65) not null,
+    CONSTRAINT fk_id_usuario_contato
+        FOREIGN KEY (id_usuario)
+        REFERENCES usuario (id_usuario),
+    CONSTRAINT fk_id_instituicao_contato
+        FOREIGN KEY (id_instituicao)
+        REFERENCES instituicao (id_instituicao)
+);
+
+-- 6. atividade
+CREATE TABLE atividade (
+    id_atividade             SERIAL PRIMARY KEY, -- Alterado
+    id_usuario_professor     INT not null,
+    vagas                    INT not null,
+    recorrente               BOOLEAN DEFAULT FALSE not null,
+    nome                     VARCHAR(65) not null,
+    descricao                VARCHAR(255) not null,
+    dia_semana               VARCHAR(12)not null,
+    CONSTRAINT fk_id_usuario_professor_atividade
+        FOREIGN KEY (id_usuario_professor)
+        REFERENCES professor (id_usuario)
+);
+
+-- 7. alimentos
+CREATE TABLE alimentos (
+    id_alimentos      SERIAL PRIMARY KEY, -- Alterado
+    descricao         VARCHAR(255) not null
+);
+
+-- 8. cardápio
+CREATE TABLE cardapio (
+    id_cardapio              SERIAL PRIMARY KEY, -- Alterado
+    id_usuario_funcionario   INT not null,
+    cardapio                 TEXT not null,
+    data_hora                TIMESTAMP not null,
+    CONSTRAINT fk_id_usuario_funcionario_cardapio
+        FOREIGN KEY (id_usuario_funcionario)
+        REFERENCES funcionario (id_usuario)
+);
+
+-- 9. notícias
+CREATE TABLE noticias (
+    id_noticias              SERIAL PRIMARY KEY, -- Alterado
+    id_usuario_funcionario   INT not null,
+    titulo                   VARCHAR(65) not null,
+    fonte                    VARCHAR(255) not null,
+    descricao                VARCHAR(255) not null,
+    CONSTRAINT fk_id_usuario_funcionario_noticias
+        FOREIGN KEY (id_usuario_funcionario)
+        REFERENCES funcionario (id_usuario)
+);
+
+-- 10. relacionamento idoso-atividade
+CREATE TABLE atividades_idoso (
+    id_usuario_idoso     INT not null,
+    id_atividade         INT not null,
+    CONSTRAINT fk_id_usuario_idoso_ativ_idoso
+        FOREIGN KEY (id_usuario_idoso)
+        REFERENCES idoso (id_usuario),
+    CONSTRAINT fk_id_atividade_ativ_idoso
+        FOREIGN KEY (id_atividade)
+        REFERENCES atividade (id_atividade),
+    PRIMARY KEY (id_usuario_idoso, id_atividade) -- Alterado
+);
+
+-- 11. relacionamento alimento-cardápio
+CREATE TABLE alimentos_cardapio (
+    id_cardapio   INT not null,
+    id_alimentos  INT not null,
+    CONSTRAINT fk_id_cardapio_alimen_cardapio
+        FOREIGN KEY (id_cardapio)
+        REFERENCES cardapio (id_cardapio),
+    CONSTRAINT fk_id_alimentos_alimen_cardapio
+        FOREIGN KEY (id_alimentos)
+        REFERENCES alimentos (id_alimentos),
+    PRIMARY KEY (id_cardapio, id_alimentos) -- Alterado
+);
+
+-- 12. agenda de atividades
+CREATE TABLE agenda_atividade (
+    id_agenda_atividade  SERIAL PRIMARY KEY, -- Alterado
+    id_atividade         INT not null,
+    data                 DATE not null,
+    hora                 TIME not null,
+    CONSTRAINT fk_id_atividade_agenda_ativ
+        FOREIGN KEY (id_atividade)
+        REFERENCES atividade (id_atividade)
+);

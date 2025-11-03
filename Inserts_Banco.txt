@@ -1,0 +1,129 @@
+-- Insere 1 Endereço (ID = 1)
+INSERT INTO endereco (cidade, numero, rua, cep, complemento, bairro) 
+VALUES ('São Paulo', 100, 'Rua das Flores', '01001-000', 'Apto 1', 'Centro');
+
+-- Insere 1 Usuário para o IDOSO (ID = 1)
+-- (Usando o login '12345678900' e senha 'idoso123' do seu AuthService)
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
+VALUES (1, 'João Silva', '12345678900', '12345678900', 'idoso123', '1940-05-15', 'M');
+
+-- Especializa o Usuário 1 como Idoso
+INSERT INTO idoso (id_usuario, obs, restricao_medica)
+VALUES (1, 'Nenhuma observação', 'Alergia a amendoim');
+
+-- Insere 1 Usuário para o FUNCIONÁRIO (ID = 2)
+-- (Usando o login 'func01' e senha 'func123' do seu AuthService)
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
+VALUES (1, 'Ana Costa', '98765432100', 'func01', 'func123', '1990-10-20', 'F');
+
+-- Especializa o Usuário 2 como Funcionário
+INSERT INTO funcionario (id_usuario)
+VALUES (2);
+
+-- Insere 1 Usuário para o PROFESSOR (ID = 3)
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
+VALUES (1, 'Carlos Souza', '11122233344', 'prof01', 'prof123', '1985-03-08', 'M');
+
+-- Especializa o Usuário 3 como Professor
+INSERT INTO professor (id_usuario)
+VALUES (3);
+
+-- Insere 1 Atividade (ministrada pelo Professor 3)
+INSERT INTO atividade (id_usuario_professor, vagas, recorrente, nome, descricao, dia_semana)
+VALUES (3, 20, true, 'Yoga Leve', 'Yoga para iniciantes e terceira idade', 'Segunda');
+
+-- Inscreve o Idoso 1 na Atividade 1
+INSERT INTO atividades_idoso (id_usuario_idoso, id_atividade)
+VALUES (1, 1);
+
+-- Insere 1 Notícia (publicada pelo Funcionário 2)
+INSERT INTO noticias (id_usuario_funcionario, titulo, fonte, descricao)
+VALUES (2, 'Festa Junina Confirmada!', 'g1.com', 'Nossa festa junina anual ocorrerá no próximo mês.');
+
+-- Insere 1 Cardápio (publicado pelo Funcionário 2)
+INSERT INTO cardapio (id_usuario_funcionario, cardapio, data_hora)
+VALUES (2, 'Almoço: Arroz, feijão, frango grelhado e salada.', '2025-10-29 12:00:00');
+
+-- === NOVOS ENDEREÇOS ===
+
+-- Insere Endereço (ID = 2)
+INSERT INTO endereco (cidade, numero, rua, cep, complemento, bairro) 
+VALUES ('Florianópolis', 550, 'Avenida Beira Mar', '88015-000', 'Casa', 'Agronômica');
+
+-- Insere Endereço (ID = 3)
+INSERT INTO endereco (cidade, numero, rua, cep, complemento, bairro) 
+VALUES ('Rio de Janeiro', 123, 'Rua Copacabana', '22020-001', 'Apto 404', 'Copacabana');
+
+-- === NOVOS USUÁRIOS E PERFIS ===
+
+-- Insere 1 Usuário para a IDOSA (ID = 4)
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
+VALUES (2, 'Maria Oliveira', '44455566677', 'maria444', 'senha456', '1945-01-30', 'F');
+
+-- Especializa a Usuária 4 como Idosa
+INSERT INTO idoso (id_usuario, obs, restricao_medica)
+VALUES (4, 'Participa ativamente de tudo', 'Intolerante à lactose');
+
+-- Insere 1 Usuário para o FUNCIONÁRIO (ID = 5)
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
+VALUES (2, 'Bruno Martins', '88899900011', 'bruno02', 'func456', '1995-07-10', 'M');
+
+-- Especializa o Usuário 5 como Funcionário
+INSERT INTO funcionario (id_usuario)
+VALUES (5);
+
+-- Insere 1 Usuário para a PROFESSORA (ID = 6)
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
+VALUES (3, 'Sofia Almeida', '77766655544', 'prof_sofia', 'prof789', '1988-11-05', 'F');
+
+-- Especializa a Usuária 6 como Professora
+INSERT INTO professor (id_usuario)
+VALUES (6);
+
+-- === NOVAS ATIVIDADES E RELACIONAMENTOS ===
+
+-- Insere 1 Atividade (ministrada pela Professora 6)
+INSERT INTO atividade (id_usuario_professor, vagas, recorrente, nome, descricao, dia_semana)
+VALUES (6, 15, false, 'Pintura em Tela', 'Curso de pintura a óleo para iniciantes', 'Quarta');
+
+-- Inscreve a Idosa 4 (Maria) na Atividade 2 (Pintura)
+INSERT INTO atividades_idoso (id_usuario_idoso, id_atividade)
+VALUES (4, 2);
+
+-- Inscreve o Idoso 1 (João) também na Atividade 2 (Pintura)
+INSERT INTO atividades_idoso (id_usuario_idoso, id_atividade)
+VALUES (1, 2);
+
+-- === NOVOS CONTATOS ===
+
+-- Adiciona um telefone para o Idoso 1 (João)
+INSERT INTO contato (id_usuario, tipo, descricao)
+VALUES (1, 'Telefone Celular', '(11) 98765-4321');
+
+-- Adiciona um email para a Idosa 4 (Maria)
+INSERT INTO contato (id_usuario, tipo, descricao)
+VALUES (4, 'Email', 'maria.oliveira@email.com');
+
+-- Adiciona um telefone para o Funcionário 5 (Bruno)
+INSERT INTO contato (id_usuario, tipo, descricao)
+VALUES (5, 'Telefone Ramal', 'Ramal 205');
+
+-- === MAIS DADOS DE FUNCIONÁRIOS ===
+
+-- Insere 1 Cardápio (publicado pelo Funcionário 5)
+INSERT INTO cardapio (id_usuario_funcionario, cardapio, data_hora)
+VALUES (5, 'Jantar: Sopa de legumes e pão integral.', '2025-10-29 19:00:00');
+
+-- Insere Alimentos
+INSERT INTO alimentos (descricao) VALUES ('Arroz Integral');
+INSERT INTO alimentos (descricao) VALUES ('Feijão Preto');
+INSERT INTO alimentos (descricao) VALUES ('Peito de Frango');
+INSERT INTO alimentos (descricao) VALUES ('Alface');
+INSERT INTO alimentos (descricao) VALUES ('Tomate');
+INSERT INTO alimentos (descricao) VALUES ('Maçã');
+
+-- Vincula alimentos ao Cardápio 1 (do primeiro insert)
+INSERT INTO alimentos_cardapio (id_cardapio, id_alimentos) VALUES (1, 3); -- Frango
+INSERT INTO alimentos_cardapio (id_cardapio, id_alimentos) VALUES (1, 4); -- Alface
+INSERT INTO alimentos_cardapio (id_cardapio, id_alimentos) VALUES (1, 5); -- Tomate
+
