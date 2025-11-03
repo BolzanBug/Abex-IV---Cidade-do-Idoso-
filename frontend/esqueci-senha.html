@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esqueci Minha Senha</title>
+    <link rel="stylesheet" href="esqueci-senha.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Esqueci Minha Senha</h1>
+            <p class="subtitle">Não se preocupe! Informe o seu endereço de e-mail e enviaremos instruções para redefinir a sua senha.</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">✓</div>
+            <p style=" font-size: 20px;"><strong>E-mail enviado com sucesso!</strong></p>
+            <p style="margin-top: 8px; font-size: 16px;">Verifique a sua caixa de entrada e siga as instruções para redefinir a sua senha.</p>
+        </div>
+
+        <form id="resetForm">
+            <div class="form-group">
+                <label for="email">Endereço de E-mail</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="seuemail@exemplo.com"
+                    required
+                >
+                <div class="error-message" id="errorMessage">
+                    Por favor, introduza um endereço de e-mail válido.
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="btn-text">Enviar Link de Recuperação</span>
+                <div class="spinner"></div>
+            </button>
+        </form>
+
+        <div class="back-link">
+            <a href="#" onclick="event.preventDefault(); alert('Voltar para a página de login');">← Voltar para o Login</a>
+        </div>
+    </div>
+
+    <script src="esqueci-senha.js"></script>
+</body>
+</html>

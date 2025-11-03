@@ -13,7 +13,7 @@ import java.util.Map;
 @RequestMapping("/login") // Define a base da URL para "/login"
 @CrossOrigin(origins = "*")
 public class AuthController {
-
+	
     @Autowired // Injeção de dependência do nosso serviço de autenticação
     private AuthService authService;
 
