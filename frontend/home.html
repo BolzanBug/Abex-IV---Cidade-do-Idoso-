@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cidade dos Idosos - Chapecó</title>
+    <link rel="stylesheet" href="home-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="./IMAGENS/pasted_file_QqQlpv_Roberto-Carlos-2-1024x683.jpg" alt="Roberto Carlos" class="logo">
+                <div class="title-section">
+                    <h1 class="main-title">Roberto Carlos</h1>
+                    <p class="subtitle">Chapecó - Santa Catarina</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="welcome-card">
+                <div class="welcome-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="welcome-text">
+                    <h2>Bem-vindos ao Portal da Cidade dos Idosos</h2>
+                    <p>Um espaço dedicado ao bem-estar, saúde e qualidade de vida da terceira idade em Chapecó.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Carousel Section -->
+        <section class="news-section">
+            <div class="section-header">
+                <h2>Notícias em Destaque</h2>
+                <p>Fique por dentro das últimas novidades sobre saúde e bem-estar</p>
+            </div>
+            
+            <div class="carousel-container">
+                <div class="carousel" id="newsCarousel">
+                    <!-- News Item 1 -->
+                    <div class="news-item active" data-index="0">
+                        <div class="news-image">
+                            <img src="noticias/virada_zen.webp" alt="Virada Zen">
+                        </div>
+                        <div class="news-content">
+                            <h3>Virada Zen promove saúde e bem-estar em São Paulo</h3>
+                            <p>Evento reúne terapeutas, artistas e palestrantes em mais de 600 atividades focadas no bem-estar e qualidade de vida.</p>
+                            <div class="news-meta">
+                                <span class="news-category">Bem-estar</span>
+                                <span class="news-date">Há 20 horas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News Item 2 -->
+                    <div class="news-item" data-index="1">
+                        <div class="news-image">
+                            <img src="noticias/corrida_unimed.webp" alt="Corrida Unimed">
+                        </div>
+                        <div class="news-content">
+                            <h3>Corrida Unimed Teresina 2025 incentiva qualidade de vida</h3>
+                            <p>Evento reuniu mais de 1.500 participantes em manhã marcada por superação e incentivo à atividade física para todas as idades.</p>
+                            <div class="news-meta">
+                                <span class="news-category">Esporte</span>
+                                <span class="news-date">Há 1 dia</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News Item 3 -->
+                    <div class="news-item" data-index="2">
+                        <div class="news-image">
+                            <img src="noticias/curso_tecnologia_idosos.webp" alt="Curso de Tecnologia">
+                        </div>
+                        <div class="news-content">
+                            <h3>Curso gratuito ajuda idosos a perder o medo da tecnologia</h3>
+                            <p>Em Anápolis, um grupo da terceira idade está descobrindo um novo olhar através da câmera do celular e outras tecnologias.</p>
+                            <div class="news-meta">
+                                <span class="news-category">Tecnologia</span>
+                                <span class="news-date">Há 6 dias</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel Controls -->
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" onclick="prevSlide()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="carousel-dots">
+                        <span class="dot active" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                    </div>
+                    <button class="carousel-btn next" onclick="nextSlide()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Info Section -->
+        <section class="info-section">
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Atividades Semanais</h3>
+                    <p>Participe das nossas atividades regulares: yoga, computação, natação e muito mais.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Cardápio Saudável</h3>
+                    <p>Confira nosso cardápio balanceado, elaborado especialmente para a terceira idade.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3>Últimas Notícias</h3>
+                    <p>Mantenha-se informado com as principais notícias sobre saúde e bem-estar.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-item active" onclick="navigateToHome()">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateToActivities()">
+                <i class="fas fa-calendar-check"></i>
+                <span>Atividades</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateToMenu()">
+                <i class="fas fa-utensils"></i>
+                <span>Cardápio</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateToNews()">
+                <i class="fas fa-newspaper"></i>
+                <span>Notícias</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Município de Chapecó</h4>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(49) 3321-8400</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Chapecó, Santa Catarina, Brasil</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>cidadedoidoso@chapeco.sc.gov.br</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Acessibilidade</h4>
+                <button class="accessibility-btn" onclick="toggleVoiceAccessibility()">
+                    <i class="fas fa-volume-up"></i>
+                    <span>Ativar acessibilidade por voz</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>Portal Cidade do Idoso - Copyright © 2024 - Todos os Direitos Reservados</p>
+        </div>
+    </footer>
+
+    <script src="home-script.js"></script>
+</body>
+</html>

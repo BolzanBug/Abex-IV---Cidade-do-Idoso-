@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mural de Notícias</title>
+    <link rel="stylesheet" href="noticias.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Mural de Notícias</h1>
+                    <span class="user-name">Alan funcionario</span>
+                </div>
+            </div>
+            </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="news-section">
+                <div class="news-header">
+                    <div class="news-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div class="news-title-header">
+                        <h2>Últimas Notícias</h2>
+                        <p>Veja as atualizações e comunicados mais recentes.</p>
+                    </div>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+                
+                <div class="loading-spinner" id="loadingSpinner"></div>
+
+                <div class="news-container" id="newsContainer">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="noticias.js"></script>
+</body>
+</html>
