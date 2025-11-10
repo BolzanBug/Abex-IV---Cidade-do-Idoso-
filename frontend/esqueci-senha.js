@@ -1,60 +1,68 @@
-const form = document.getElementById("resetForm");
-const emailInput = document.getElementById("email");
-const submitBtn = document.getElementById("submitBtn");
-const errorMessage = document.getElementById("errorMessage");
-const successMessage = document.getElementById("successMessage");
+document.addEventListener("DOMContentLoaded", () => {
+    const resetForm = document.getElementById("resetForm");
+    const emailInput = document.getElementById("email");
+    const submitBtn = document.getElementById("submitBtn");
+    const errorMessage = document.getElementById("errorMessage");
+    const successMessage = document.getElementById("successMessage");
 
-// Validação de e-mail
-function isValidEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-}
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
 
-// Remover erro ao digitar
-emailInput.addEventListener("input", function() {
-    if (this.classList.contains("error")) {
-        this.classList.remove("error");
+    const handlePasswordReset = async (e) => {
+        e.preventDefault();
+
         errorMessage.classList.remove("show");
-    }
-});
+        emailInput.classList.remove("error");
+        successMessage.classList.remove("show");
 
-// Submeter formulário
-form.addEventListener("submit", function(e) {
-    e.preventDefault();
-    
-    const email = emailInput.value.trim();
+        const email = emailInput.value;
 
-    // Validar e-mail
-    if (!isValidEmail(email)) {
-        emailInput.classList.add("error");
-        errorMessage.classList.add("show");
-        emailInput.focus();
-        return;
-    }
+        if (!validateEmail(email)) {
+            errorMessage.textContent = "Por favor, introduza um endereço de e-mail válido.";
+            errorMessage.classList.add("show");
+            emailInput.classList.add("error");
+            return;
+        }
 
-    // Remover mensagem de erro
-    emailInput.classList.remove("error");
-    errorMessage.classList.remove("show");
+        submitBtn.disabled = true;
+        submitBtn.classList.add("loading");
 
-    // Mostrar loading
-    submitBtn.classList.add("loading");
-    submitBtn.disabled = true;
+        const backendUrl = "http://localhost:8080/password/reset-request";
 
-    // Simular envio de e-mail (2 segundos)
-    setTimeout(function() {
-        // Remover loading
-        submitBtn.classList.remove("loading");
-        submitBtn.disabled = false;
+        try {
+            const response = await fetch(backendUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                }),
+            });
 
-        // Esconder formulário e mostrar mensagem de sucesso
-        form.style.display = "none";
-        successMessage.classList.add("show");
+            if (response.ok) {
+                resetForm.style.display = "none";
+                successMessage.classList.add("show");
+            } else {
+                const errorData = await response.json();
+                errorMessage.textContent = errorData.message || "E-mail não encontrado ou inválido.";
+                errorMessage.classList.add("show");
+                emailInput.classList.add("error");
+                
+                submitBtn.disabled = false;
+                submitBtn.classList.remove("loading");
+            }
+        } catch (error) {
+            errorMessage.textContent = "Não foi possível conectar ao servidor. Tente novamente mais tarde.";
+            errorMessage.classList.add("show");
+            emailInput.classList.add("error");
 
-        // Opcional: resetar após 5 segundos
-        setTimeout(function() {
-            form.style.display = "block";
-            successMessage.classList.remove("show");
-            form.reset();
-        }, 5000);
-    }, 2000);
+            submitBtn.disabled = false;
+            submitBtn.classList.remove("loading");
+        }
+    };
+
+    resetForm.addEventListener("submit", handlePasswordReset);
 });

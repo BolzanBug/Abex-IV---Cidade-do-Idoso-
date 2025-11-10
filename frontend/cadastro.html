@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cadastro.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="cadastro.js"></script>
 </head>
 <body>
     <header class="header">
@@ -135,6 +136,8 @@
                     </div>
 
                     <div class="form-actions">
+                        </button>
+                        <p>Já possui uma conta? <a href="login.html">Login</a></p>
                         <button type="button" class="btn btn-secondary" onclick="clearForm()">
                             <i class="fas fa-times"></i>
                             Cancelar
@@ -149,51 +152,6 @@
         </div>
     </main>
 
-    <script>
-        function clearForm() {
-            document.getElementById('registrationForm').reset();
-        }
-
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                alert('As senhas não coincidem!');
-                return;
-            }
-            
-            if (!document.getElementById('terms').checked) {
-                alert('Você deve aceitar os termos de uso!');
-                return;
-            }
-            
-            alert('Conta criada com sucesso!');
-        });
-
-        // Máscara para telefone
-        document.getElementById('phone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 11) {
-                value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-                if (value.length < 14) {
-                    value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-                }
-            }
-            e.target.value = value;
-        });
-
-        // Máscara para CEP
-        document.getElementById('zipCode').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 8) {
-                value = value.replace(/(\d{5})(\d{3})/, '$1-$2');
-            }
-            e.target.value = value;
-        });
-    </script>
 </body>
 </html>
 
