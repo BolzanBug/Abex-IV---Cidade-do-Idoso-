@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividades Inscritas - Cidade dos Idosos</title>
+    <link rel="stylesheet" href="home-styles.css">
+    <link rel="stylesheet" href="atividades-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="./IMAGENS/pasted_file_QqQlpv_Roberto-Carlos-2-1024x683.jpg" alt="Roberto Carlos" class="logo">
+                <div class="title-section">
+                    <h1 class="main-title">Roberto Carlos</h1>
+                    <p class="subtitle">Chapecó - Santa Catarina</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Activity Summary -->
+            <section class="activity-summary">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="summary-text">
+                        <h2>Suas Atividades</h2>
+                        <p>Você está inscrito(a) em <strong>2 atividades</strong></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activities Grid -->
+            <section class="activities-section">
+                <div class="activities-grid">
+                    <!-- Activity Card 1 - Confirmed -->
+                    <div class="activity-card confirmed">
+                        <div class="card-status">
+                            <i class="fas fa-check"></i>
+                            <span>CONFIRMADO</span>
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&h=200&fit=crop" alt="Yoga">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="activity-title">Yoga Bloco A1</h3>
+                            <div class="activity-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>15:00h</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>dia 24 de janeiro</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Card 2 - Confirmed -->
+                    <div class="activity-card confirmed">
+                        <div class="card-status">
+                            <i class="fas fa-check"></i>
+                            <span>CONFIRMADO</span>
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300&h=200&fit=crop" alt="Computação">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="activity-title">Computação Bloco X</h3>
+                            <div class="activity-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>00:00h</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>dia x de x</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Card 3 - Canceled -->
+                    <div class="activity-card canceled">
+                        <div class="card-status">
+                            <i class="fas fa-times"></i>
+                            <span>CANCELADO</span>
+                        </div>
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=300&h=200&fit=crop" alt="Natação">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="activity-title">Natação Bloco X</h3>
+                            <div class="activity-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>00:00h</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>dia x de x</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="action-section">
+                <div class="action-buttons">
+                    <button class="btn-cancel" onclick="cancelActivity()">
+                        <i class="fas fa-times-circle"></i>
+                        CANCELAR ATIVIDADE
+                    </button>
+                    <button class="btn-secondary" onclick="viewAllActivities()">
+                        <i class="fas fa-list"></i>
+                        VER TODAS AS ATIVIDADES
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-item" onclick="navigateToHome()">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item active" onclick="navigateToActivities()">
+                <i class="fas fa-calendar-check"></i>
+                <span>Atividades</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateToMenu()">
+                <i class="fas fa-utensils"></i>
+                <span>Cardápio</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateToNews()">
+                <i class="fas fa-newspaper"></i>
+                <span>Notícias</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Município de Chapecó</h4>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(49) 3321-8400</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Chapecó, Santa Catarina, Brasil</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>cidadedoidoso@chapeco.sc.gov.br</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Acessibilidade</h4>
+                <button class="accessibility-btn" onclick="toggleVoiceAccessibility()">
+                    <i class="fas fa-volume-up"></i>
+                    <span>Ativar acessibilidade por voz</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>Portal Cidade do Idoso - Copyright © 2024 - Todos os Direitos Reservados</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Cancel Activity -->
+    <div id="cancelModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cancelar Atividade</h3>
+                <button class="modal-close" onclick="closeCancelModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza de que deseja cancelar uma atividade? Esta ação não pode ser desfeita.</p>
+                <div class="activity-select">
+                    <label for="activitySelect">Selecione a atividade:</label>
+                    <select id="activitySelect">
+                        <option value="">Escolha uma atividade...</option>
+                        <option value="yoga">Yoga Bloco A1</option>
+                        <option value="computacao">Computação Bloco X</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeCancelModal()">Cancelar</button>
+                <button class="btn-cancel" onclick="confirmCancel()">Confirmar Cancelamento</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="atividades-script.js"></script>
+</body>
+</html>
+
