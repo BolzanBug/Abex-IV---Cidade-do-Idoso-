@@ -1,31 +1,35 @@
-# Define a versão da sintaxe do Docker Compose a ser usada.
-version: '3.8'
-
-# 'services' é onde definimos nossos contêineres.
 services:
-  
-  # Nosso serviço de backend
   backend:
-    container_name: api_idosos_backend
-    # 'build' diz ao Compose para construir uma imagem a partir de um Dockerfile.
-    # O '.' significa o diretório onde o Dockerfile está.
     build: ./backend
-    # 'ports' mapeia a porta do seu computador (HOST) para a porta do contêiner (CONTAINER).
-    # Formato: "HOST:CONTAINER"
-    # A porta 8080 do seu PC será redirecionada para a porta 8080 do contêiner.
+    restart: on-failure 
     ports:
       - "8080:8080"
-    # Linha para conseguir se comunicar com o banco de dados
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/cidade_idoso
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1qaz
 
-  # Nosso serviço de frontend
   frontend:
-    container_name: api_idosos_frontend
     build: ./frontend
     ports:
-      # A porta 80 do seu PC será redirecionada para a porta 80 do contêiner.
       - "80:80"
-    # 'depends_on' garante que o contêiner do backend seja iniciado ANTES do contêiner do frontend.
     depends_on:
       - backend
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=cidade_idoso
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1qaz
+    ports:
+      - "5433:5432" 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:

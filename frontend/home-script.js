@@ -122,7 +122,7 @@ function navigateToNews() {
     // Simulate navigation delay
     setTimeout(() => {
         // In a real application, this would navigate to the news page
-        console.log('Navigate to news page');
+        window.location.href = 'noticias.html';
     }, 1000);
 }
 
