@@ -90,47 +90,6 @@ window.nextSlide = nextSlide;
 window.prevSlide = prevSlide;
 window.currentSlide = currentSlideFunc;
 
-// Navigation Functions
-function navigateToHome() {
-    // Already on home page
-    showNotification('Você já está na página inicial!', 'info');
-}
-
-function navigateToActivities() {
-    showNotification('Redirecionando para atividades...', 'info');
-    
-    // Simulate navigation delay
-    setTimeout(() => {
-        // In a real application, this would navigate to the activities page
-        window.location.href = 'atividades.html';
-    }, 1000);
-}
-
-function navigateToMenu() {
-    showNotification('Redirecionando para cardápio...', 'info');
-    
-    // Simulate navigation delay
-    setTimeout(() => {
-        // In a real application, this would navigate to the menu page
-        console.log('Navigate to menu page');
-    }, 1000);
-}
-
-function navigateToNews() {
-    showNotification('Redirecionando para notícias...', 'info');
-    
-    // Simulate navigation delay
-    setTimeout(() => {
-        // In a real application, this would navigate to the news page
-        console.log('Navigate to news page');
-    }, 1000);
-}
-
-// Make navigation functions globally accessible
-window.navigateToHome = navigateToHome;
-window.navigateToActivities = navigateToActivities;
-window.navigateToMenu = navigateToMenu;
-window.navigateToNews = navigateToNews;
 
 // Accessibility Functions
 function toggleVoiceAccessibility() {
@@ -162,37 +121,19 @@ function setupEventListeners() {
     
     // Handle navigation item clicks
     const navItems = document.querySelectorAll('.nav-item');
+navItems.forEach(item => {
+    item.addEventListener('click', function(e) {
+
     navItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Remove active class from all nav items
-            navItems.forEach(nav => nav.classList.remove('active'));
-            
-            // Add active class to clicked item
-            this.classList.add('active');
-        });
+        item.addEventListener('click', function() {
+        navItems.forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+
     });
-    
-    // Handle info card clicks
-    const infoCards = document.querySelectorAll('.info-card');
-    infoCards.forEach((card, index) => {
-        card.addEventListener('click', function() {
-            switch(index) {
-                case 0:
-                    navigateToActivities();
-                    break;
-                case 1:
-                    navigateToMenu();
-                    break;
-                case 2:
-                    navigateToNews();
-                    break;
-            }
-        });
-        
+       }); 
         // Add cursor pointer
         card.style.cursor = 'pointer';
+    });
     });
 }
 
