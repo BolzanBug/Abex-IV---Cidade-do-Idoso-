@@ -13,11 +13,17 @@
     <header class="header">
         <div class="header-container">
             <div class="logo-section">
-                <img src="./IMAGENS/pasted_file_QqQlpv_Roberto-Carlos-2-1024x683.jpg" alt="Roberto Carlos" class="logo">
+                <img src="./IMAGENS/Avatar padrao.jpg" alt="Foto de Usuario" class="logo">
                 <div class="title-section">
-                    <h1 class="main-title">Roberto Carlos</h1>
-                    <p class="subtitle">Chapecó - Santa Catarina</p>
+                    <h1 class="main-title" id="NomeUsario"></h1>
+                    <p class="subtitle" id="CidadeUsuario"></p>
                 </div>
+            </div>
+            <div class="header-actions">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair da Conta</span>
+                </button>
             </div>
         </div>
     </header>
@@ -52,11 +58,10 @@
                             <img src="noticias/virada_zen.webp" alt="Virada Zen">
                         </div>
                         <div class="news-content">
-                            <h3>Virada Zen promove saúde e bem-estar em São Paulo</h3>
-                            <p>Evento reúne terapeutas, artistas e palestrantes em mais de 600 atividades focadas no bem-estar e qualidade de vida.</p>
+                            <h3 id="TituloNoticia1"></h3>
+                            <p id="Descricao1"></p>
                             <div class="news-meta">
-                                <span class="news-category">Bem-estar</span>
-                                <span class="news-date">Há 20 horas</span>
+                                <span class="news-category" id="Classificacao1"></span>
                             </div>
                         </div>
                     </div>
@@ -67,11 +72,10 @@
                             <img src="noticias/corrida_unimed.webp" alt="Corrida Unimed">
                         </div>
                         <div class="news-content">
-                            <h3>Corrida Unimed Teresina 2025 incentiva qualidade de vida</h3>
-                            <p>Evento reuniu mais de 1.500 participantes em manhã marcada por superação e incentivo à atividade física para todas as idades.</p>
+                            <h3 id="TituloNoticia2"></h3>
+                            <p id="Descricao2"></p>
                             <div class="news-meta">
-                                <span class="news-category">Esporte</span>
-                                <span class="news-date">Há 1 dia</span>
+                                <span class="news-category" id="Classificacao2"></span>
                             </div>
                         </div>
                     </div>
@@ -82,11 +86,10 @@
                             <img src="noticias/curso_tecnologia_idosos.webp" alt="Curso de Tecnologia">
                         </div>
                         <div class="news-content">
-                            <h3>Curso gratuito ajuda idosos a perder o medo da tecnologia</h3>
-                            <p>Em Anápolis, um grupo da terceira idade está descobrindo um novo olhar através da câmera do celular e outras tecnologias.</p>
+                            <h3 id="TituloNoticia3"></h3>
+                            <p id="Descricao3"></p>
                             <div class="news-meta">
-                                <span class="news-category">Tecnologia</span>
-                                <span class="news-date">Há 6 dias</span>
+                                <span class="news-category" id="Classificacao3"></span>
                             </div>
                         </div>
                     </div>

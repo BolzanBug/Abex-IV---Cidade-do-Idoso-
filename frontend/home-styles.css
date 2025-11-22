@@ -35,10 +35,11 @@ body {
 }
 
 .logo {
-    width: 80px;
+    width: 100px;
     height: 100px;
-    border-radius: 8px;
-}
+    border-radius: 50%;
+    border: 2px solid white;
+}s
 
 .title-section {
     flex: 1;
@@ -589,5 +590,73 @@ a:focus {
     .info-card,
     .welcome-card {
         border: 2px solid #000;
+    }
+}
+
+/* Header Actions */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #7A5C58, #5C6672);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(122, 92, 88, 0.3);
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #8A6C68, #6C7682);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(122, 92, 88, 0.4);
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(122, 92, 88, 0.3);
+}
+
+.logout-btn i {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .header-actions {
+        justify-content: center;
+    }
+    
+    .logout-btn span {
+        display: none;
+    }
+    
+    .logout-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        padding: 0;
+        justify-content: center;
     }
 }
