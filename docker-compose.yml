@@ -15,6 +15,8 @@ services:
     # A porta 8080 do seu PC será redirecionada para a porta 8080 do contêiner.
     ports:
       - "8080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   # Nosso serviço de frontend
   frontend:

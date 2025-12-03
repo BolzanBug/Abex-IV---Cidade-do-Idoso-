@@ -1,5 +1,5 @@
 # Etapa 1: Use uma imagem base oficial do Java 17. A versão 'slim' é menor e otimizada.
-FROM openjdk:17-slim
+FROM eclipse-temurin:17-jre-focal
 
 # Etapa 2: Define o diretório de trabalho dentro do contêiner.
 # Todos os comandos a seguir serão executados a partir deste diretório.

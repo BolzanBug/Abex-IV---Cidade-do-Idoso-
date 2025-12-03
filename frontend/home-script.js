@@ -399,37 +399,75 @@ async function logout() {
 
 //Get EndPoint Username and City
 async function buscarDadosDoBackend() {
-  try {
-    const response = await fetch('http://127.0.0.1:8080/home/userinfo');
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! status: ${response.status}`);
-    }
-    const data = await response.json();
-    console.log(data.nome);
-    console.log(data.cidade);
-    document.getElementById("NomeUsario").innerHTML = data.nome;
-    document.getElementById("CidadeUsuario").innerHTML = data.cidade;
-    // Use os dados para atualizar sua interface, etc.
-  } catch (error) {
-    console.error('Falha ao buscar dados:', error);
-  }
+    try {
+        // --- ALTERAÇÃO AQUI ---
+        // Recupera o login salvo no momento do login
+        const loginUsuario = localStorage.getItem("usuarioLogado");
+        
+        // Se não tiver login, usa um padrão ou redireciona para login
+        if (!loginUsuario) {
+            console.warn("Nenhum usuário logado encontrado.");
+            // window.location.href = "login.html"; // Opcional: forçar login
+            return;
+        }
 
-  //Get EndPoint News Carousel
-   try {
-    const response = await fetch('http://127.0.0.1:8080/home/news');
-    if (!response.ok) {
-      throw new Error(`Erro HTTP! status: ${response.status}`);
+        // Envia o login como parâmetro na URL
+        const response = await fetch(`http://127.0.0.1:8080/home/userinfo?login=${loginUsuario}`);
+        // ----------------------
+
+        if (!response.ok) {
+        throw new Error(`Erro HTTP! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data.nome);
+        console.log(data.cidade);
+        
+        // Atualiza a tela com dados reais do banco
+        const elNome = document.getElementById("NomeUsario");
+        const elCidade = document.getElementById("CidadeUsuario");
+        
+        if(elNome) elNome.innerHTML = data.nome;
+        if(elCidade) elCidade.innerHTML = data.cidade;
+
+    } catch (error) {
+        console.error('Falha ao buscar dados do usuário:', error);
     }
+
+    // Busca Notícias (O código de notícias continua igual, pois não depende do usuário)
+    try {
+        const response = await fetch('http://127.0.0.1:8080/home/news');
+        if (!response.ok) {
+        throw new Error(`Erro HTTP! status: ${response.status}`);
+        }
     const data = await response.json();
+    
+    // --- INÍCIO DA ATUALIZAÇÃO DA NOTÍCIA 1 ---
     document.getElementById("TituloNoticia1").innerHTML = data.Titulo1;
     document.getElementById("Descricao1").innerHTML = data.Descricao1;
     document.getElementById("Classificacao1").innerHTML = data.Classificacao1;
-      document.getElementById("TituloNoticia2").innerHTML = data.Titulo2;
+    // Adiciona a Imagem 1
+    if (data.Imagem1) {
+        document.querySelector('.news-item[data-index="0"] img').src = data.Imagem1;
+    }
+
+    // --- INÍCIO DA ATUALIZAÇÃO DA NOTÍCIA 2 ---
+    document.getElementById("TituloNoticia2").innerHTML = data.Titulo2;
     document.getElementById("Descricao2").innerHTML = data.Descricao2;
     document.getElementById("Classificacao2").innerHTML = data.Classificacao2;
-      document.getElementById("TituloNoticia3").innerHTML = data.Titulo3;
+    // Adiciona a Imagem 2
+    if (data.Imagem2) {
+        document.querySelector('.news-item[data-index="1"] img').src = data.Imagem2;
+    }
+
+    // --- INÍCIO DA ATUALIZAÇÃO DA NOTÍCIA 3 ---
+    document.getElementById("TituloNoticia3").innerHTML = data.Titulo3;
     document.getElementById("Descricao3").innerHTML = data.Descricao3;
     document.getElementById("Classificacao3").innerHTML = data.Classificacao3;
+    // Adiciona a Imagem 3
+    if (data.Imagem3) {
+        document.querySelector('.news-item[data-index="2"] img').src = data.Imagem3;
+    }
+
     // Use os dados para atualizar sua interface, etc.
   } catch (error) {
     console.error('Falha ao buscar dados:', error);

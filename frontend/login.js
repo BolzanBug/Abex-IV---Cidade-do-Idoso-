@@ -62,8 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await response.json();
                 console.log("Login bem-sucedido:", data);
 
+                // --- ALTERAÇÃO AQUI ---
+                // Salva o CPF/Login digitado para usar na Home Page
+                localStorage.setItem("usuarioLogado", cpfUsuario);
+                // ----------------------
+
                 feedbackMessage.textContent = "Login realizado com sucesso! Redirecionando...";
                 feedbackMessage.classList.add("success");
+
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 0);
 
                 // Aqui redireciona o usuario
 
