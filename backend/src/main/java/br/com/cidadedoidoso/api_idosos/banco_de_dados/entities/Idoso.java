@@ -1,4 +1,5 @@
-package br.com.cidadedoidoso.api_idosos.model;
+package br.com.cidadedoidoso.api_idosos.banco_de_dados.entities;
+
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
