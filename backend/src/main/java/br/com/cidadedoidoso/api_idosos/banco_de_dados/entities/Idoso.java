@@ -1,6 +1,5 @@
 package br.com.cidadedoidoso.api_idosos.banco_de_dados.entities;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +8,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "idosos")
-@Data  // Lombok
+@Data
 public class Idoso {
 
     @Id
@@ -22,15 +21,15 @@ public class Idoso {
 
     @NotBlank
     @Email
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 120)
     private String email;
 
     @NotBlank
-    @Column(nullable = false)
-    private String senha;  // Será hasheada no service
-
-    @NotBlank
-    @Pattern(regexp = "\\d{11}")
+    @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos numéricos")
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String senha;
 }

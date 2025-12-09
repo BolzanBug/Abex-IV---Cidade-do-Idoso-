@@ -1,43 +1,49 @@
 package br.com.cidadedoidoso.api_idosos.service.impl;
 
-import br.com.cidadedoidoso.api_idosos.service.IdosoService;
+import br.com.cidadedoidoso.api_idosos.banco_de_dados.entities.Idoso;
+import br.com.cidadedoidoso.api_idosos.banco_de_dados.repositories.IdosoRepository;
 import br.com.cidadedoidoso.api_idosos.dto.IdosoDTO;
-import br.com.cidadedoidoso.api_idosos.entities.Idoso;
-import br.com.cidadedoidoso.api_idosos.repository.IdosoRepository;
+import br.com.cidadedoidoso.api_idosos.service.IdosoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class IdosoServiceImpl implements IdosoService {
 
-    private final IdosoRepository repository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    public IdosoServiceImpl(IdosoRepository repository) {
-        this.repository = repository;
-    }
+    private final IdosoRepository idosoRepository;
 
     @Override
     public Idoso cadastrar(IdosoDTO dto) {
-        // Checa duplicata
-        if (repository.existsByCpf(dto.getCpf())) {
-            throw new RuntimeException("CPF já cadastrado");
-        }
-        if (repository.existsByEmail(dto.getEmail())) {  // Adicione existsByEmail no Repository se quiser
-            throw new RuntimeException("Email já cadastrado");
-        }
 
-        Idoso i = new Idoso();
-        i.setNome(dto.getNome());
-        i.setEmail(dto.getEmail());
-        i.setSenha(passwordEncoder.encode(dto.getSenha()));  // Hash da senha
-        i.setCpf(dto.getCpf());
-        return repository.save(i);
+        // Verifica se já existe CPF
+        idosoRepository.findByCpf(dto.getCpf())
+                .ifPresent(i -> {
+                    throw new RuntimeException("CPF já cadastrado.");
+                });
+
+        // Verifica se já existe email
+        idosoRepository.findByEmail(dto.getEmail())
+                .ifPresent(i -> {
+                    throw new RuntimeException("E-mail já cadastrado.");
+                });
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        Idoso idoso = new Idoso();
+        idoso.setNome(dto.getNome());
+        idoso.setEmail(dto.getEmail());
+        idoso.setCpf(dto.getCpf());
+        idoso.setSenha(encoder.encode(dto.getSenha())); // senha criptografada
+
+        return idosoRepository.save(idoso);
     }
 
     @Override
     public List<Idoso> listar() {
-        return repository.findAll();
+        return idosoRepository.findAll();
     }
 }
