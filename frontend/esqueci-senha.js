@@ -29,11 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.disabled = true;
         submitBtn.classList.add("loading");
 
-        const backendUrl = "http://localhost:8080/auth/reset-password";
-
-
-
-
+        const backendUrl = "http://localhost:8080/password/reset-request";
 
         try {
             const response = await fetch(backendUrl, {
