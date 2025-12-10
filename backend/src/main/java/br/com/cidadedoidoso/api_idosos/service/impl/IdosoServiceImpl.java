@@ -4,31 +4,29 @@ import br.com.cidadedoidoso.api_idosos.banco_de_dados.entities.Idoso;
 import br.com.cidadedoidoso.api_idosos.banco_de_dados.repositories.IdosoRepository;
 import br.com.cidadedoidoso.api_idosos.dto.IdosoDTO;
 import br.com.cidadedoidoso.api_idosos.service.IdosoService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class IdosoServiceImpl implements IdosoService {
 
     private final IdosoRepository idosoRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    public IdosoServiceImpl(IdosoRepository idosoRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.idosoRepository = idosoRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Idoso cadastrar(IdosoDTO dto) {
+    public IdosoDTO criar(IdosoDTO dto) {
 
-        // Verifica se já existe por email ou CPF
-        idosoRepository.findByEmailOrCpf(dto.getEmail(), dto.getCpf())
-                .ifPresent(i -> {
-                    throw new RuntimeException("Já existe um idoso cadastrado com esse email ou CPF.");
-                });
+        if (idosoRepository.existsByEmail(dto.getEmail())) {
+            throw new RuntimeException("Email já cadastrado");
+        }
+
+        if (idosoRepository.existsByCpf(dto.getCpf())) {
+            throw new RuntimeException("CPF já cadastrado");
+        }
 
         Idoso idoso = new Idoso();
         idoso.setNome(dto.getNome());
@@ -36,36 +34,60 @@ public class IdosoServiceImpl implements IdosoService {
         idoso.setCpf(dto.getCpf());
         idoso.setSenha(passwordEncoder.encode(dto.getSenha()));
 
-        return idosoRepository.save(idoso);
+        idoso = idosoRepository.save(idoso);
+
+        return toDTO(idoso);
     }
 
     @Override
-    public List<Idoso> listarTodos() {
-        return idosoRepository.findAll();
-    }
-
-    @Override
-    public Optional<Idoso> buscarPorId(Long id) {
-        return idosoRepository.findById(id);
-    }
-
-    @Override
-    public Idoso atualizar(Long id, IdosoDTO dto) {
+    public IdosoDTO atualizar(Long id, IdosoDTO dto) {
         Idoso idoso = idosoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Idoso não encontrado"));
 
         idoso.setNome(dto.getNome());
         idoso.setEmail(dto.getEmail());
         idoso.setCpf(dto.getCpf());
-        idoso.setSenha(passwordEncoder.encode(dto.getSenha()));
 
-        return idosoRepository.save(idoso);
+        if (dto.getSenha() != null && !dto.getSenha().isBlank()) {
+            idoso.setSenha(passwordEncoder.encode(dto.getSenha()));
+        }
+
+        idoso = idosoRepository.save(idoso);
+
+        return toDTO(idoso);
+    }
+
+    @Override
+    public List<IdosoDTO> listarTodos() {
+        return idosoRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
+
+    @Override
+    public IdosoDTO buscarPorId(Long id) {
+        Idoso idoso = idosoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Idoso não encontrado"));
+
+        return toDTO(idoso);
     }
 
     @Override
     public void deletar(Long id) {
-        Idoso idoso = idosoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Idoso não encontrado"));
-        idosoRepository.delete(idoso);
+        if (!idosoRepository.existsById(id)) {
+            throw new RuntimeException("Idoso não encontrado");
+        }
+        idosoRepository.deleteById(id);
+    }
+
+    private IdosoDTO toDTO(Idoso idoso) {
+        IdosoDTO dto = new IdosoDTO();
+        dto.setNome(idoso.getNome());
+        dto.setEmail(idoso.getEmail());
+        dto.setCpf(idoso.getCpf());
+        // por segurança, não devolvemos a senha
+        dto.setSenha(null);
+        return dto;
     }
 }

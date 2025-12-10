@@ -5,16 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class IdosoDTO {
 
     @NotBlank(message = "Nome é obrigatório")
-    @Size(min = 3, max = 150)
     private String nome;
 
     @NotBlank(message = "Email é obrigatório")
@@ -22,8 +17,7 @@ public class IdosoDTO {
     private String email;
 
     @NotBlank(message = "CPF é obrigatório")
-    @Size(min = 11, max = 11, message = "CPF deve ter 11 dígitos")
-    @Pattern(regexp = "\\d{11}", message = "CPF deve conter apenas números")
+    @Pattern(regexp = "\\d{11}", message = "CPF deve ter 11 dígitos numéricos")
     private String cpf;
 
     @NotBlank(message = "Senha é obrigatória")

@@ -5,35 +5,32 @@ import br.com.cidadedoidoso.api_idosos.banco_de_dados.repositories.IdosoReposito
 import br.com.cidadedoidoso.api_idosos.dto.LoginRequestDTO;
 import br.com.cidadedoidoso.api_idosos.dto.LoginResponseDTO;
 import br.com.cidadedoidoso.api_idosos.service.AuthService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final IdosoRepository idosoRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    public AuthServiceImpl(IdosoRepository idosoRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.idosoRepository = idosoRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public LoginResponseDTO autenticarIdoso(LoginRequestDTO dto) {
 
-        // login pode ser email OU cpf
-        Idoso idoso = idosoRepository
-                .findByEmailOrCpf(dto.getLogin(), dto.getLogin())
-                .orElseThrow(() -> new RuntimeException("Usuário ou senha inválidos"));
+        Idoso idoso = idosoRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new RuntimeException("Email ou senha inválidos"));
 
-        if (!passwordEncoder.matches(dto.getSenha(), idoso.getSenha())) {
-            throw new RuntimeException("Usuário ou senha inválidos");
+        boolean senhaCorreta = passwordEncoder.matches(dto.getSenha(), idoso.getSenha());
+        if (!senhaCorreta) {
+            throw new RuntimeException("Email ou senha inválidos");
         }
 
         return new LoginResponseDTO(
                 "Login realizado com sucesso",
-                idoso.getNome()
+                idoso.getNome(),
+                idoso.getEmail()
         );
     }
 }

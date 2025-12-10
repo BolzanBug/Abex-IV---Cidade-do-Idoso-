@@ -1,14 +1,16 @@
 package br.com.cidadedoidoso.api_idosos.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class LoginRequestDTO {
 
-    private String login; // pode ser email ou CPF
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Email inválido")
+    private String email;
+
+    @NotBlank(message = "Senha é obrigatória")
     private String senha;
 }
