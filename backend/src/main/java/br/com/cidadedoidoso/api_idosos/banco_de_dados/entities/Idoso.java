@@ -1,35 +1,45 @@
 package br.com.cidadedoidoso.api_idosos.banco_de_dados.entities;
+// (Confirme se este é o pacote correto)
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+// Removido: GeneratedValue, GenerationType
 
 @Entity
-@Table(name = "idosos")
-@Data
+@Table(name = "idoso") // <-- Corrigido para 'idoso' (sem 's')
 public class Idoso {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id // <-- Marca como ID
+    @Column(name = "id_usuario") // <-- Mapeia para a coluna FK do banco
+    private Integer idUsuario; // <-- Usa Integer, igual ao Usuario.java
 
-    @NotBlank
-    @Column(nullable = false, length = 100)
-    private String nome;
+    @Column(name = "obs", nullable = false)
+    private String obs;
 
-    @NotBlank
-    @Email
-    @Column(nullable = false, unique = true, length = 120)
-    private String email;
+    @Column(name = "restricao_medica", nullable = false)
+    private String restricaoMedica;
 
-    @NotBlank
-    @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos numéricos")
-    @Column(nullable = false, unique = true, length = 11)
-    private String cpf;
+    // --- Removido: cpf, senha ---
 
-    @NotBlank
-    @Column(nullable = false)
-    private String senha;
+    // Getters e Setters
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    public String getObs() {
+        return obs;
+    }
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+    public String getRestricaoMedica() {
+        return restricaoMedica;
+    }
+    public void setRestricaoMedica(String restricaoMedica) {
+        this.restricaoMedica = restricaoMedica;
+    }
 }

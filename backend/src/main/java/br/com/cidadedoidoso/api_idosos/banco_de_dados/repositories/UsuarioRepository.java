@@ -10,7 +10,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     // Busca pelo CPF (para o Idoso)
     Optional<Usuario> findByCpf(String cpf);
-    
+    //Busca pelo e-mail
+    Optional<Usuario> findByEmail(String email);
+
     // Busca pelo Login (para o Funcionário)
     Optional<Usuario> findByLogin(String login);
 }

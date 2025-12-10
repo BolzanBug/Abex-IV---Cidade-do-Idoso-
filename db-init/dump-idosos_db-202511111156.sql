@@ -425,6 +425,7 @@ CREATE TABLE public.usuario (
     cpf character varying(11) NOT NULL,
     login character varying(16) NOT NULL,
     senha character varying(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
     datanascimento date NOT NULL,
     genero character varying(1) NOT NULL,
     CONSTRAINT usuario_datanascimento_check CHECK ((datanascimento < CURRENT_DATE)),
@@ -696,14 +697,15 @@ COPY public.professor (id_usuario) FROM stdin;
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.usuario (id_usuario, id_endereco, nome, cpf, login, senha, datanascimento, genero) FROM stdin;
-1	1	João Silva	12345678900	12345678900	idoso123	1940-05-15	M
-2	1	Ana Costa	98765432100	func01	func123	1990-10-20	F
-3	1	Carlos Souza	11122233344	prof01	prof123	1985-03-08	M
-4	2	Maria Oliveira	44455566677	maria444	senha456	1945-01-30	F
-5	2	Bruno Martins	88899900011	bruno02	func456	1995-07-10	M
-6	3	Sofia Almeida	77766655544	prof_sofia	prof789	1988-11-05	F
+COPY public.usuario (id_usuario, id_endereco, nome, cpf, login, senha, email, datanascimento, genero) FROM stdin;
+1	1	João Silva	12345678900	12345678900	idoso123	rafael.almeida@unochapeco.edu.br	        1940-05-15	M
+2	1	Ana Costa	98765432100	func01	func123	ana@email.com	        1990-10-20	F
+3	1	Carlos Souza	11122233344	prof01	prof123	carlos@email.com	    1985-03-08	M
+4	2	Maria Oliveira	44455566677	maria444	senha456	maria@email.com	    1945-01-30	F
+5	2	Bruno Martins	88899900011	bruno02	func456	bruno@email.com	    1995-07-10	M
+6	3	Sofia Almeida	77766655544	prof_sofia	prof789	sofia@email.com	    1988-11-05	F
 \.
+
 
 
 --
