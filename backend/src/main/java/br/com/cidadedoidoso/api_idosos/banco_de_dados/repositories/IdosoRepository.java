@@ -12,4 +12,6 @@ public interface IdosoRepository extends JpaRepository<Idoso, Long> {
     boolean existsByCpf(String cpf);
 
     Optional<Idoso> findByEmail(String email);
+    Optional<Idoso> findByCpf(String cpf);
+
 }

@@ -5,6 +5,7 @@ import br.com.cidadedoidoso.api_idosos.banco_de_dados.repositories.IdosoReposito
 import br.com.cidadedoidoso.api_idosos.dto.LoginRequestDTO;
 import br.com.cidadedoidoso.api_idosos.dto.LoginResponseDTO;
 import br.com.cidadedoidoso.api_idosos.service.AuthService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponseDTO autenticarIdoso(LoginRequestDTO dto) {
 
-        Idoso idoso = idosoRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new RuntimeException("Email ou senha inválidos"));
+        // 🌟 Agora o login é feito usando CPF
+        Idoso idoso = idosoRepository.findByCpf(dto.getLogin())
+                .orElseThrow(() -> new RuntimeException("CPF ou senha inválidos"));
 
+        // Verifica senha
         boolean senhaCorreta = passwordEncoder.matches(dto.getSenha(), idoso.getSenha());
         if (!senhaCorreta) {
-            throw new RuntimeException("Email ou senha inválidos");
+            throw new RuntimeException("CPF ou senha inválidos");
         }
 
+        // Retorno correto para o frontend
         return new LoginResponseDTO(
                 "Login realizado com sucesso",
                 idoso.getNome(),
