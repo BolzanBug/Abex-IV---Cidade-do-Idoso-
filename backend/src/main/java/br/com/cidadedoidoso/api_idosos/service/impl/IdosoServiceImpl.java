@@ -2,7 +2,7 @@ package br.com.cidadedoidoso.api_idosos.service.impl;
 
 import br.com.cidadedoidoso.api_idosos.banco_de_dados.entities.Idoso;
 import br.com.cidadedoidoso.api_idosos.banco_de_dados.repositories.IdosoRepository;
-import br.com.cidadedoidoso.api_idodos.dto.IdosoDTO;
+import br.com.cidadedoidoso.api_idosos.dto.IdosoDTO;
 import br.com.cidadedoidoso.api_idosos.service.IdosoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
