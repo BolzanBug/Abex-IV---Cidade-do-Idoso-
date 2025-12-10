@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -13,13 +15,19 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable()) // 🚨 IMPORTANTE: desabilita CSRF para permitir POST do front
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/idosos/**").permitAll() // 👈 libera seu endpoint
-                        .anyRequest().permitAll()                  // libera tudo
+                        .requestMatchers("/idosos/**").permitAll()
+                        .anyRequest().permitAll()
                 )
-                .cors(Customizer.withDefaults()); // habilita CORS
+                .cors(Customizer.withDefaults());
 
         return http.build();
+    }
+
+    // 🔥 ESTE BEAN FALTAVA! Sem ele o AuthServiceImpl não funciona.
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

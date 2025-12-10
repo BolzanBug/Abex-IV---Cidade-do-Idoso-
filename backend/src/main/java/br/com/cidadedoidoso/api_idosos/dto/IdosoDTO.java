@@ -16,6 +16,11 @@ public class IdosoDTO {
     @Email(message = "Email inválido")
     private String email;
 
+    private String telefone;
+    private String dataNascimento;
+
+    private String genero;
+
     @NotBlank(message = "CPF é obrigatório")
     @Pattern(regexp = "\\d{11}", message = "CPF deve ter 11 dígitos numéricos")
     private String cpf;
@@ -23,4 +28,11 @@ public class IdosoDTO {
     @NotBlank(message = "Senha é obrigatória")
     @Size(min = 6, message = "Senha deve ter pelo menos 6 caracteres")
     private String senha;
+
+    private String endereco;
+    private String cidade;
+    private String estado;
+
+    @Pattern(regexp = "\\d{5}-?\\d{3}", message = "CEP inválido")
+    private String cep;
 }

@@ -8,11 +8,11 @@ public interface IdosoService {
 
     IdosoDTO criar(IdosoDTO dto);
 
-    IdosoDTO atualizar(Long id, IdosoDTO dto);
-
     List<IdosoDTO> listarTodos();
 
     IdosoDTO buscarPorId(Long id);
+
+    IdosoDTO atualizar(Long id, IdosoDTO dto);
 
     void deletar(Long id);
 }

@@ -20,8 +20,22 @@ public class Idoso {
 
     private String email;
 
+    private String telefone;
+
+    private String dataNascimento;
+
+    private String genero;
+
     @Column(unique = true)
     private String cpf;
 
     private String senha;
+
+    private String endereco;
+
+    private String cidade;
+
+    private String estado;
+
+    private String cep;
 }

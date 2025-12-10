@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
             dataNascimento: birthDateInput.value,
             genero: genderInput.value,
             senha: passwordInput.value,
+            cpf: document.getElementById("cpf").value,
             endereco: addressInput.value,
             cidade: cityInput.value,
             estado: stateInput.value,
