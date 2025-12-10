@@ -2,10 +2,13 @@ package br.com.cidadedoidoso.api_idosos.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor 
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginResponseDTO {
-    private String message;
+
     private String token;
+    private String tipo; // exemplo: "Bearer"
 }
