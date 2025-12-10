@@ -35,30 +35,41 @@ public class PasswordResetService {
 
     public boolean resetarSenha(String emailRecebido) {
 
-        // Busca sempre o usuário pelo CPF fixo
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByCpf("12345678900");
-
-        // Mesmo que não exista no banco, você quer continuar com sucesso
-        Usuario usuario = usuarioOpt.orElse(null);
-
-        // Gera nova senha
-        String novaSenha = gerarSenhaAleatoria();
-
-        // Se existir no banco, salva a nova senha
-        if (usuario != null) {
-            usuario.setSenha(novaSenha);
-            usuarioRepository.save(usuario);
+        // Validação simples de e-mail
+        if (emailRecebido == null || !emailRecebido.contains("@") || !emailRecebido.contains(".")) {
+            return false;
         }
 
-        // Envia sempre o email informado
+        // Buscar usuário pelo e-mail
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(emailRecebido);
+
+        if (usuarioOpt.isEmpty()) {
+            return false; // e-mail não existe no banco
+        }
+
+        Usuario usuario = usuarioOpt.get();
+
+        // Gera nova senha aleatória
+        String novaSenha = gerarSenhaAleatoria();
+
+        // Atualiza a senha no banco
+        usuario.setSenha(novaSenha);
+        usuarioRepository.save(usuario);
+
+        // Envia o e-mail de redefinição
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(emailRecebido);
+        msg.setTo(usuario.getEmail()); // envia para o e-mail cadastrado do usuário
         msg.setSubject("Redefinição de Senha");
-        msg.setText("Sua nova senha é: " + novaSenha);
+        msg.setText(
+                "Olá!\n\n" +
+                        "Uma solicitação de redefinição de senha foi realizada.\n\n" +
+                        "Sua nova senha é: " + novaSenha + "\n\n" +
+                        "Recomendamos que você altere essa senha após fazer login.\n\n" +
+                        "Atenciosamente,\nSistema Cidade do Idoso"
+        );
+
         mailSender.send(msg);
 
-        // SEMPRE retornar sucesso
         return true;
     }
-
 }

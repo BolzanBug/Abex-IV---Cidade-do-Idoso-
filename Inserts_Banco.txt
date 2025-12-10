@@ -3,26 +3,27 @@ INSERT INTO endereco (cidade, numero, rua, cep, complemento, bairro)
 VALUES ('São Paulo', 100, 'Rua das Flores', '01001-000', 'Apto 1', 'Centro');
 
 -- Insere 1 Usuário para o IDOSO (ID = 1)
--- (Usando o login '12345678900' e senha 'idoso123' do seu AuthService)
-INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
-VALUES (1, 'João Silva', '12345678900', '12345678900', 'idoso123', '1940-05-15', 'M');
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero, email)
+VALUES (1, 'João Silva', '12345678900', '12345678900', 'idoso123', '1940-05-15', 'M', 'rafael.almeida@unochapeco.edu.br');
 
 -- Especializa o Usuário 1 como Idoso
 INSERT INTO idoso (id_usuario, obs, restricao_medica)
 VALUES (1, 'Nenhuma observação', 'Alergia a amendoim');
 
+
 -- Insere 1 Usuário para o FUNCIONÁRIO (ID = 2)
--- (Usando o login 'func01' e senha 'func123' do seu AuthService)
-INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
-VALUES (1, 'Ana Costa', '98765432100', 'func01', 'func123', '1990-10-20', 'F');
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero, email)
+VALUES (1, 'Ana Costa', '98765432100', 'func01', 'func123', '1990-10-20', 'F', 'funcionario1@example.com');
 
 -- Especializa o Usuário 2 como Funcionário
 INSERT INTO funcionario (id_usuario)
 VALUES (2);
 
+
 -- Insere 1 Usuário para o PROFESSOR (ID = 3)
-INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero)
-VALUES (1, 'Carlos Souza', '11122233344', 'prof01', 'prof123', '1985-03-08', 'M');
+INSERT INTO usuario (id_endereco, nome, cpf, login, senha, datanascimento, genero, email)
+VALUES (1, 'Carlos Souza', '11122233344', 'prof01', 'prof123', '1985-03-08', 'M', 'professor1@example.com');
+
 
 -- Especializa o Usuário 3 como Professor
 INSERT INTO professor (id_usuario)

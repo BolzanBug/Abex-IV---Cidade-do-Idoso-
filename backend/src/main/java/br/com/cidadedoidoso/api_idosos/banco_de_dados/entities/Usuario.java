@@ -21,8 +21,9 @@ public class Usuario {
 
     @Column(name = "senha", nullable = false)
     private String senha;
-    
-    // (Não precisamos dos outros campos como nome, genero, etc. para o login)
+
+    @Column(name = "email", unique = true, nullable = false)  // 🔥 Novo campo
+    private String email;
 
     // Getters e Setters
     public Integer getIdUsuario() {
@@ -31,22 +32,32 @@ public class Usuario {
     public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
+
     public String getCpf() {
         return cpf;
     }
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
     public String getLogin() {
         return login;
     }
     public void setLogin(String login) {
         this.login = login;
     }
+
     public String getSenha() {
         return senha;
     }
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
