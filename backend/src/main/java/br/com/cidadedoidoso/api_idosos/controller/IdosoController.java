@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/idosos")
-@CrossOrigin(origins = "*") // mantém se sua aplicação precisar aceitar requisições externas
 @RequiredArgsConstructor
 public class IdosoController {
 
