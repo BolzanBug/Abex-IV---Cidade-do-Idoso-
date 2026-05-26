@@ -22,7 +22,12 @@ Session = Annotated[AsyncSession, Depends(get_session)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
 
 
-@router.post('/', status_code=HTTPStatus.CREATED, response_model=UserPublic)
+@router.post(
+    '/',
+    status_code=HTTPStatus.CREATED,
+    response_model=UserPublic,
+    response_model_exclude_none=True,
+)
 async def create_user(user: UserSchema, session: Session):
     db_user = await session.scalar(
         select(User).where(
@@ -52,7 +57,12 @@ async def create_user(user: UserSchema, session: Session):
 
     return db_user
 
-@router.get('/me', status_code=HTTPStatus.OK, response_model=UserPublic)
+@router.get(
+    '/me',
+    status_code=HTTPStatus.OK,
+    response_model=UserPublic,
+    response_model_exclude_none=True,
+)
 async def read_user_me(current_user: CurrentUser):
     """
     Rota especial para o Front-end descobrir quem está logado.
@@ -62,7 +72,12 @@ async def read_user_me(current_user: CurrentUser):
     return current_user
 
 
-@router.get('/', status_code=HTTPStatus.OK, response_model=UserList)
+@router.get(
+    '/',
+    status_code=HTTPStatus.OK,
+    response_model=UserList,
+    response_model_exclude_none=True,
+)
 async def read_users(
     session: Session,
     current_user: CurrentUser,
@@ -75,7 +90,12 @@ async def read_users(
     return {'users': users}
 
 
-@router.put('/{user_id}', status_code=HTTPStatus.OK, response_model=UserPublic)
+@router.put(
+    '/{user_id}',
+    status_code=HTTPStatus.OK,
+    response_model=UserPublic,
+    response_model_exclude_none=True,
+)
 async def update_user(
     user_id: int,
     user: UserSchema,
@@ -124,7 +144,12 @@ async def delete_user(
     return {'Message': 'User deleted'}
 
 
-@router.get('/{user_id}', status_code=HTTPStatus.OK, response_model=UserPublic)
+@router.get(
+    '/{user_id}',
+    status_code=HTTPStatus.OK,
+    response_model=UserPublic,
+    response_model_exclude_none=True,
+)
 async def read_user(user_id: int, session: Session):
     user_db = await session.scalar(select(User).where(User.id == user_id))
 

@@ -72,3 +72,14 @@ async def get_current_user(
         raise credentials_exception
 
     return user
+
+
+async def get_current_staff_user(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    if not current_user.is_staff:
+        raise HTTPException(
+            status_code=HTTPStatus.FORBIDDEN,
+            detail='Acesso restrito a funcionários',
+        )
+    return current_user

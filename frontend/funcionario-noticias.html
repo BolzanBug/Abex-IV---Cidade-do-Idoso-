@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notícias — Gestão</title>
+    <link rel="stylesheet" href="funcionario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="staff-layout">
+    <header class="header">
+        <div class="header-container staff-header-bar">
+            <div class="staff-header-brand">
+                <div class="title-section">
+                    <h1 class="main-title">Notícias</h1>
+                    <p class="subtitle">Gestão de conteúdo</p>
+                </div>
+            </div>
+            <button type="button" class="staff-btn staff-btn-logout" onclick="staffLogout()">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sair
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="staff-back-row">
+            <a href="funcionario-home.html" class="staff-back"><i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar ao painel</a>
+        </div>
+
+        <div class="staff-panel">
+            <h2>Nova notícia</h2>
+            <form id="form-noticia" class="staff-form-grid">
+                <label>Título
+                    <input type="text" id="n-titulo" required maxlength="300" autocomplete="off">
+                </label>
+                <label>Descrição
+                    <textarea id="n-descricao" rows="4" required maxlength="2000"></textarea>
+                </label>
+                <label>URL (fonte ou link)
+                    <input type="url" id="n-fonte" required maxlength="800" placeholder="https://…">
+                </label>
+                <button type="submit" id="btn-publicar-noticia" class="staff-btn staff-btn-primary"><i class="fas fa-plus" aria-hidden="true"></i> Publicar</button>
+            </form>
+        </div>
+
+        <div class="staff-panel">
+            <h2>Notícias cadastradas</h2>
+            <div class="staff-table-wrap">
+                <table class="staff-table" id="tabela-noticias">
+                    <thead>
+                        <tr><th>Título</th><th>Fonte</th><th></th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="api-base.js"></script>
+    <script src="funcionario-common.js"></script>
+    <script src="funcionario-noticias.js"></script>
+</body>
+</html>

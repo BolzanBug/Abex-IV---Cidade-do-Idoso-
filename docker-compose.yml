@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cidade_idoso
+    volumes:
+      - pgdata_cidade_idoso:/var/lib/postgresql/data
+    # Porta não exposta no host (evita conflito com Postgres local). A API usa o serviço "db" na rede interna.
+    # Para acessar do host (ferramentas GUI), descomente e use outra porta, ex.: "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cidade_idoso"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/cidade_idoso
+      DB_HOST: db
+      POSTGRES_USER: postgres
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata_cidade_idoso:

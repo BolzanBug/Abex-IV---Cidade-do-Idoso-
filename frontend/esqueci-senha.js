@@ -29,7 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.disabled = true;
         submitBtn.classList.add("loading");
 
-        const backendUrl = "http://localhost:8080/password/reset-request";
+        const base =
+            typeof window.API_BASE_URL === 'string' && window.API_BASE_URL
+                ? window.API_BASE_URL
+                : 'http://localhost:8000';
+        const backendUrl = `${base}/password/reset-request`;
 
         try {
             const response = await fetch(backendUrl, {

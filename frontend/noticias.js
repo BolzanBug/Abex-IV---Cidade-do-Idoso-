@@ -3,6 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const loadingSpinner = document.getElementById("loadingSpinner");
     const errorMessage = document.getElementById("errorMessage");
 
+    const apiBase = () =>
+        typeof window.API_BASE_URL === 'string' && window.API_BASE_URL
+            ? window.API_BASE_URL
+            : `${window.location.protocol}//${window.location.hostname}:8000`;
+
+    const escapeHtml = (s) => {
+        const d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+    };
+
     const getDomain = (url) => {
         try {
             const domain = new URL(url).hostname;
@@ -26,13 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const article = document.createElement('article');
             article.className = 'news-item';
             
+            const href = escapeHtml(noticia.fonte);
             article.innerHTML = `
                 <h3 class="news-title">
-                    <a href="${noticia.fonte}" target="_blank" rel="noopener noreferrer">${noticia.titulo}</a>
+                    <a href="${href}" target="_blank" rel="noopener noreferrer">${escapeHtml(noticia.titulo)}</a>
                 </h3>
-                <p class="news-description">${noticia.descricao}</p>
+                <p class="news-description">${escapeHtml(noticia.descricao)}</p>
                 <div class="news-footer">
-                    <span class="news-source">Fonte: ${sourceDomain}</span>
+                    <span class="news-source">Fonte: ${escapeHtml(sourceDomain)}</span>
                 </div>
             `;
             
@@ -44,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loadingSpinner.classList.add("show");
         errorMessage.classList.remove("show");
         
-        const backendUrl = "http://localhost:8080/noticias";
+        const backendUrl = `${apiBase()}/noticias`;
 
         try {
             const response = await fetch(backendUrl, {
@@ -59,7 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderNews(noticias);
             } else {
                 const errorData = await response.json();
-                errorMessage.textContent = errorData.message || "Falha ao carregar as notícias.";
+                errorMessage.textContent =
+                    errorData.detail || errorData.message || "Falha ao carregar as notícias.";
                 errorMessage.classList.add("show");
             }
 

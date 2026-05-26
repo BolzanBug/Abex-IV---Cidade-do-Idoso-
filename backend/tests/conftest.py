@@ -11,7 +11,7 @@ from sqlalchemy.pool import StaticPool
 
 from sistema_provas.app import app
 from sistema_provas.database import get_session
-from sistema_provas.models import User, table_registry
+from sistema_provas.models import Activity, MenuItem, User, table_registry
 from sistema_provas.security import get_password_hash
 from sistema_provas.settings import Settings
 
@@ -104,6 +104,86 @@ def token(client, user):
     return response.json()['access_token']
 
 
+@pytest_asyncio.fixture
+async def staff_user(session):
+    password = 'staffsecret'
+    user = UserFactory(
+        password=get_password_hash(password),
+        is_staff=True,
+        username='staff1',
+        email='staff1@test.com',
+    )
+    session.add(user)
+    await session.commit()
+    await session.refresh(user)
+    user.clean_password = password
+    return user
+
+
+@pytest.fixture
+def staff_token(client, staff_user):
+    response = client.post(
+        '/auth/token',
+        data={
+            'username': staff_user.email,
+            'password': staff_user.clean_password,
+        },
+    )
+    return response.json()['access_token']
+
+
+@pytest_asyncio.fixture
+async def sample_menu(session):
+    items = [
+        MenuItem(
+            dia_label='Segunda-feira',
+            ordem_dia=1,
+            ordem_refeicao=1,
+            refeicao='Almoço',
+            titulo='Almoço especial',
+            descricao='Arroz, feijão e salada.',
+            imagem_url='https://example.com/a.jpg',
+        ),
+        MenuItem(
+            dia_label='Segunda-feira',
+            ordem_dia=1,
+            ordem_refeicao=2,
+            refeicao='Jantar',
+            titulo='Jantar leve',
+            descricao='Sopa e fruta.',
+            imagem_url='https://example.com/b.jpg',
+        ),
+    ]
+    for m in items:
+        session.add(m)
+    await session.commit()
+    return items
+
+
+@pytest_asyncio.fixture
+async def sample_activities(session):
+    items = [
+        Activity(
+            title='Yoga Bloco A1',
+            time_label='15:00h',
+            date_label='24 de janeiro',
+            image_url='https://example.com/yoga.jpg',
+        ),
+        Activity(
+            title='Natação',
+            time_label='10:00h',
+            date_label='Segundas',
+            image_url='https://example.com/nat.jpg',
+        ),
+    ]
+    for a in items:
+        session.add(a)
+    await session.commit()
+    for a in items:
+        await session.refresh(a)
+    return items
+
+
 @pytest.fixture
 def settings():
     settings = Settings()
@@ -117,3 +197,4 @@ class UserFactory(factory.Factory):
     username = factory.Sequence(lambda n: f'test{n}')
     email = factory.LazyAttribute(lambda obj: f'{obj.username}@test.com')
     password = factory.LazyAttribute(lambda obj: f'{obj.username}@example.com')
+    is_staff = False

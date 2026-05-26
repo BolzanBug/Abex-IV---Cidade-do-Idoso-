@@ -29,7 +29,11 @@ async function checkAuthentication() {
     }
 
     try {
-        const response = await fetch("http://localhost:8000/users/me", {
+        const base =
+            typeof window.API_BASE_URL === 'string' && window.API_BASE_URL
+                ? window.API_BASE_URL
+                : 'http://localhost:8000';
+        const response = await fetch(`${base}/users/me`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -38,6 +42,11 @@ async function checkAuthentication() {
 
         if (response.ok) {
             const userData = await response.json();
+
+            if (userData.is_staff) {
+                window.location.href = "funcionario-home.html";
+                return false;
+            }
 
             // Atualiza a interface com os dados do usuário
             const greetingElement = document.getElementById("user-greeting");
@@ -64,8 +73,7 @@ async function checkAuthentication() {
         }
     } catch (error) {
         console.error("Erro ao validar token com o servidor:", error);
-        showNotification("Erro de conexão. Alguns recursos podem não carregar.", "error");
-        return true; // Permite o carregamento em caso de erro de rede, você pode alterar para false se for uma rota super restrita
+        return true;
     }
 }
 
@@ -83,8 +91,10 @@ window.logout = logout;
 function initializeCarousel() {
     startAutoSlide();
     const newsItems = document.querySelectorAll('.news-item');
-    newsItems.forEach(item => {
-        item.addEventListener('click', function() { navigateToNews(); });
+    newsItems.forEach((item) => {
+        item.addEventListener('click', function () {
+            window.location.assign('noticias.html');
+        });
     });
 }
 
@@ -121,30 +131,6 @@ window.nextSlide = nextSlide;
 window.prevSlide = prevSlide;
 window.currentSlide = currentSlideFunc;
 
-// --- FUNÇÕES DE NAVEGAÇÃO ---
-
-function navigateToHome() { showNotification('Você já está na página inicial!', 'info'); }
-
-function navigateToActivities() {
-    showNotification('Redirecionando para atividades...', 'info');
-    setTimeout(() => { window.location.href = 'atividades.html'; }, 1000);
-}
-
-function navigateToMenu() {
-    showNotification('Redirecionando para cardápio...', 'info');
-    setTimeout(() => { console.log('Navigate to menu page'); }, 1000);
-}
-
-function navigateToNews() {
-    showNotification('Redirecionando para notícias...', 'info');
-    setTimeout(() => { window.location.href = 'noticias.html'; }, 1000);
-}
-
-window.navigateToHome = navigateToHome;
-window.navigateToActivities = navigateToActivities;
-window.navigateToMenu = navigateToMenu;
-window.navigateToNews = navigateToNews;
-
 // --- FUNÇÕES DE ACESSIBILIDADE E UTILITÁRIOS ---
 
 function toggleVoiceAccessibility() {
@@ -154,11 +140,9 @@ function toggleVoiceAccessibility() {
     if (isActive) {
         button.classList.remove('active');
         button.innerHTML = '<i class="fas fa-volume-up"></i><span>Ativar acessibilidade por voz</span>';
-        showNotification('Acessibilidade por voz desativada', 'info');
     } else {
         button.classList.add('active');
         button.innerHTML = '<i class="fas fa-volume-off"></i><span>Desativar acessibilidade por voz</span>';
-        showNotification('Acessibilidade por voz ativada', 'success');
     }
 }
 window.toggleVoiceAccessibility = toggleVoiceAccessibility;
@@ -170,22 +154,21 @@ function setupEventListeners() {
         carousel.addEventListener('mouseleave', startAutoSlide);
     }
 
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            navItems.forEach(nav => nav.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-
     const infoCards = document.querySelectorAll('.info-card');
     infoCards.forEach((card, index) => {
-        card.addEventListener('click', function() {
-            switch(index) {
-                case 0: navigateToActivities(); break;
-                case 1: navigateToMenu(); break;
-                case 2: navigateToNews(); break;
+        card.addEventListener('click', function () {
+            switch (index) {
+                case 0:
+                    window.location.assign('atividades.html');
+                    break;
+                case 1:
+                    window.location.assign('cardapio.html');
+                    break;
+                case 2:
+                    window.location.assign('noticias.html');
+                    break;
+                default:
+                    break;
             }
         });
         card.style.cursor = 'pointer';
@@ -206,38 +189,10 @@ function initializeAccessibility() {
         item.addEventListener('keydown', function(event) {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                navigateToNews();
+                window.location.assign('noticias.html');
             }
         });
     });
-}
-
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-
-    if (!document.querySelector('#notificationStyle')) {
-        const style = document.createElement('style');
-        style.id = 'notificationStyle';
-        style.textContent = `
-            .notification { position: fixed; top: 20px; right: 20px; padding: 16px 24px; border-radius: 8px; color: white; font-weight: 500; z-index: 1001; animation: slideInRight 0.3s ease-out; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
-            .notification-success { background: #00B931; }
-            .notification-error { background: #7A5C58; }
-            .notification-warning { background: #f39c12; }
-            .notification-info { background: #5C6672; }
-            @keyframes slideInRight { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
-            @keyframes slideOutRight { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(100%); } }
-        `;
-        document.head.appendChild(style);
-    }
-
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease-out';
-        setTimeout(() => { if (notification.parentNode) notification.parentNode.removeChild(notification); }, 300);
-    }, 4000);
 }
 
 document.addEventListener('visibilitychange', function() {

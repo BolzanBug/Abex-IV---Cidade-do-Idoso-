@@ -72,11 +72,15 @@ document.addEventListener("DOMContentLoaded", () => {
             state: stateInput.value,
             zip_code: zipCodeInput.value
         };
-        // URL corrigida para o padrão da sua rota FastAPI
-        const backendUrl = "http://localhost:8000/users/";
+        const base =
+            typeof window.API_BASE_URL === 'string' && window.API_BASE_URL
+                ? window.API_BASE_URL
+                : 'http://localhost:8000';
+        const backendUrl = `${base}/users/`;
 
+        let skipResetButton = false;
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cadastrando...';
+        submitBtn.textContent = 'Cadastrando…';
 
         try {
             const response = await fetch(backendUrl, {
@@ -88,11 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (response.ok) {
-                showFeedback("Cadastro realizado com sucesso!", false);
+                showFeedback('Cadastro concluído. Abrindo o login…', false);
                 registrationForm.reset();
-
-                // Opcional: Redirecionar para o login após X segundos
-                // setTimeout(() => window.location.href = 'login.html', 2000);
+                skipResetButton = true;
+                submitBtn.disabled = true;
+                setTimeout(() => window.location.assign('login.html'), 450);
             } else {
                 const errorData = await response.json();
                 console.error("Erro detalhado do backend:", errorData);
@@ -117,8 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Erro de rede:", error);
             showFeedback("Não foi possível conectar ao servidor. Verifique se o backend está rodando.", true);
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnHTML;
+            if (!skipResetButton) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHTML;
+            }
         }
     };
 

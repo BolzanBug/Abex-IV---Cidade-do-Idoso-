@@ -34,85 +34,15 @@
                     </div>
                     <div class="summary-text">
                         <h2>Suas Atividades</h2>
-                        <p>Você está inscrito(a) em <strong>2 atividades</strong></p>
+                        <p id="activitySummaryText">Carregando...</p>
                     </div>
                 </div>
             </section>
 
             <!-- Activities Grid -->
             <section class="activities-section">
-                <div class="activities-grid">
-                    <!-- Activity Card 1 - Confirmed -->
-                    <div class="activity-card confirmed">
-                        <div class="card-status">
-                            <i class="fas fa-check"></i>
-                            <span>CONFIRMADO</span>
-                        </div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&h=200&fit=crop" alt="Yoga">
-                        </div>
-                        <div class="card-content">
-                            <h3 class="activity-title">Yoga Bloco A1</h3>
-                            <div class="activity-details">
-                                <div class="detail-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>15:00h</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-calendar"></i>
-                                    <span>dia 24 de janeiro</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Activity Card 2 - Confirmed -->
-                    <div class="activity-card confirmed">
-                        <div class="card-status">
-                            <i class="fas fa-check"></i>
-                            <span>CONFIRMADO</span>
-                        </div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300&h=200&fit=crop" alt="Computação">
-                        </div>
-                        <div class="card-content">
-                            <h3 class="activity-title">Computação Bloco X</h3>
-                            <div class="activity-details">
-                                <div class="detail-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>00:00h</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-calendar"></i>
-                                    <span>dia x de x</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Activity Card 3 - Canceled -->
-                    <div class="activity-card canceled">
-                        <div class="card-status">
-                            <i class="fas fa-times"></i>
-                            <span>CANCELADO</span>
-                        </div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=300&h=200&fit=crop" alt="Natação">
-                        </div>
-                        <div class="card-content">
-                            <h3 class="activity-title">Natação Bloco X</h3>
-                            <div class="activity-details">
-                                <div class="detail-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>00:00h</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-calendar"></i>
-                                    <span>dia x de x</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="activities-grid" id="activitiesGrid" aria-live="polite">
+                    <p class="no-activities loading-hint">Carregando suas atividades...</p>
                 </div>
             </section>
 
@@ -133,21 +63,21 @@
     </main>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" aria-label="Navegação principal">
         <div class="nav-container">
-            <a href="#" class="nav-item" onclick="navigateToHome()">
+            <a href="home.html" class="nav-item">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
-            <a href="#" class="nav-item active" onclick="navigateToActivities()">
+            <a href="atividades.html" class="nav-item active">
                 <i class="fas fa-calendar-check"></i>
                 <span>Atividades</span>
             </a>
-            <a href="#" class="nav-item" onclick="navigateToMenu()">
+            <a href="cardapio.html" class="nav-item">
                 <i class="fas fa-utensils"></i>
                 <span>Cardápio</span>
             </a>
-            <a href="#" class="nav-item" onclick="navigateToNews()">
+            <a href="noticias.html" class="nav-item">
                 <i class="fas fa-newspaper"></i>
                 <span>Notícias</span>
             </a>
@@ -202,10 +132,8 @@
                 <p>Tem certeza de que deseja cancelar uma atividade? Esta ação não pode ser desfeita.</p>
                 <div class="activity-select">
                     <label for="activitySelect">Selecione a atividade:</label>
-                    <select id="activitySelect">
+                    <select id="activitySelect" aria-label="Atividade para cancelar">
                         <option value="">Escolha uma atividade...</option>
-                        <option value="yoga">Yoga Bloco A1</option>
-                        <option value="computacao">Computação Bloco X</option>
                     </select>
                 </div>
             </div>
@@ -216,7 +144,28 @@
         </div>
     </div>
 
-    <script src="atividades-script.js"></script>
+    <!-- Modal: catálogo para novas inscrições -->
+    <div id="catalogModal" class="modal">
+        <div class="modal-content modal-catalog">
+            <div class="modal-header">
+                <h3>Todas as atividades</h3>
+                <button type="button" class="modal-close" onclick="closeCatalogModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="catalog-intro">Escolha uma atividade para se inscrever.</p>
+                <div id="catalogList" class="catalog-list"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeCatalogModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="api-base.js?v=4"></script>
+    <script src="atividades-script.js?v=4"></script>
+    <script src="disable-floating-toast.js?v=4"></script>
 </body>
 </html>
 

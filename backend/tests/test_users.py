@@ -19,6 +19,7 @@ def test_create_user(client):
         'id': 1,
         'email': 'alice@example.com',
         'username': 'alice',
+        'is_staff': False,
     }
 
 
@@ -51,7 +52,10 @@ def test_create_integrity_error_email(client, user):
 
 
 def test_read_users(client, user, token):
-    user_schema = UserPublic.model_validate(user).model_dump()
+    user_schema = UserPublic.model_validate(user).model_dump(
+        mode='json',
+        exclude_none=True,
+    )
     response = client.get(
         '/users/', headers={'Authorization': f'Bearer {token}'}
     )
@@ -75,6 +79,7 @@ def test_update_user(client, user, token):
         'id': 1,
         'email': 'gabriel@example.com',
         'username': 'user',
+        'is_staff': False,
     }
 
 
@@ -121,7 +126,10 @@ def test_update_forbidden(client, token):
 
 
 def test_read_user(client, user):
-    user_schema = UserPublic.model_validate(user).model_dump()
+    user_schema = UserPublic.model_validate(user).model_dump(
+        mode='json',
+        exclude_none=True,
+    )
     response = client.get('/users/1')
 
     assert response.status_code == HTTPStatus.OK
